@@ -10,4 +10,10 @@ ADD portfolio /portfolio
 
 WORKDIR /portfolio
 
+RUN npm update
+
+RUN npm init -y
+
+RUN npm install express
+
 CMD nodemon
