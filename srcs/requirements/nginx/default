@@ -1,0 +1,33 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	ssl_certificate /hboukili.crt;
+    ssl_certificate_key /hboukili.key;
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+
+	root /var/www/html/wordpress;
+
+	# Add index.php to the list if you are using PHP
+	index index.php;
+
+	server_name _;
+
+	location /adminer{
+		proxy_pass http://adminer:8080/;
+	}
+
+	location /webpage{
+		proxy_pass http://webpage:777/;
+	}
+
+	location / {
+		try_files $uri $uri/ =404;
+
+		location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+			fastcgi_pass wordpress:9000;
+		}
+	}
+}

@@ -1,0 +1,29 @@
+FROM debian:buster
+
+RUN apt update -y && apt upgrade -y 
+
+RUN apt install -y mariadb-server
+
+COPY ./50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+
+COPY ./script.sh /
+
+RUN chmod 777 script.sh
+
+ARG DB_NAME
+
+ARG newUser
+
+ARG Newpassword
+
+ARG USER_WP
+
+ARG PASSWORD_WP
+
+ARG email
+
+ARG title
+
+RUN ./script.sh
+
+ENTRYPOINT ["mysqld"]

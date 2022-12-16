@@ -1,0 +1,102 @@
+version: "3"
+services:
+  mariadb :
+    build:
+      context: ${PWD}/requirements/mariadb/
+      args:
+        - DB_NAME=mariadb
+        - newUser=hboukili
+        - Newpassword=fes123
+        - USER_WP=USER
+        - PASSWORD_WP=123
+        - email=hm.boukiili97@gmail.com
+        - EMAIL_WP=user@gmail.com
+        - title=inception
+    container_name: mariadb
+    env_file: .env
+    ports:
+      - 3306:3306
+    volumes: 
+      - mariadb:/var/lib/mysql
+    restart : unless-stopped
+    networks:
+    - docker_net 
+  wordpress:
+    depends_on:
+      - mariadb
+    build: 
+      context: ${PWD}/requirements/wordpress/
+      args:
+        - DB_NAME=mariadb
+        - newUser=hboukili
+        - Newpassword=fes123
+        - USER_WP=USER
+        - PASSWORD_WP=123
+        - email=hm.boukiili97@gmail.com
+        - EMAIL_WP=user@gmail.com
+        - title=inception
+    container_name: wordpress
+    env_file:
+      -  .env
+    volumes:
+      - wordpress:/var/www/html
+    ports:
+      - 9000:9000
+    restart : unless-stopped
+    networks:
+    - docker_net 
+  nginx:
+    depends_on:
+      - wordpress
+    build: ${PWD}/requirements/nginx
+    container_name: nginx
+    volumes:
+      - wordpress:/var/www/html
+    ports:
+      - '443:443'
+    restart : unless-stopped
+    networks:
+    - docker_net
+  redis :
+    build : ${PWD}/requirements/bonus/redis
+    depends_on:
+      - wordpress
+    container_name : redis
+    networks :
+      - docker_net
+    ports : 
+      - '6379:6379'
+  adminer :
+    build : ${PWD}/requirements/bonus/adminer
+    depends_on :
+      - wordpress
+    container_name : adminer
+    networks : 
+      - docker_net
+    ports : 
+      - '8080:8080'
+  webpage:
+    build : ${PWD}/requirements/bonus/static_webpage
+    depends_on :
+      - nginx
+    container_name: webpage
+    networks :
+      - docker_net
+    ports :
+      - '777:777'
+volumes:
+  mariadb:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/requirements/tools/volumes/DB
+  wordpress :
+    driver : local
+    driver_opts :
+      o: bind
+      type : none
+      device : ${PWD}/requirements/tools/volumes/wordpress
+networks:
+  docker_net:
+    driver: bridge
