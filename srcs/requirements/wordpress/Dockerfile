@@ -31,4 +31,6 @@ COPY ./script.sh /
 
 RUN chmod 777 script.sh
 
-ENTRYPOINT ./script.sh
+ENTRYPOINT ["./script.sh"]
+
+CMD ["php-fpm7.3", "-F", "-R"]

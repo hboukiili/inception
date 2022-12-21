@@ -14,8 +14,6 @@ services:
         - title=inception
     container_name: mariadb
     env_file: .env
-    ports:
-      - 3306:3306
     volumes: 
       - mariadb:/var/lib/mysql
     restart : unless-stopped
@@ -40,8 +38,6 @@ services:
       -  .env
     volumes:
       - wordpress:/var/www/html
-    ports:
-      - 9000:9000
     restart : unless-stopped
     networks:
     - docker_net 
@@ -64,8 +60,6 @@ services:
     container_name : redis
     networks :
       - docker_net
-    ports : 
-      - '6379:6379'
   adminer :
     build : ${PWD}/requirements/bonus/adminer
     depends_on :
@@ -73,8 +67,6 @@ services:
     container_name : adminer
     networks : 
       - docker_net
-    ports : 
-      - '8080:8080'
   webpage:
     build : ${PWD}/requirements/bonus/static_webpage
     depends_on :
@@ -82,8 +74,6 @@ services:
     container_name: webpage
     networks :
       - docker_net
-    ports :
-      - '777:777'
 volumes:
   mariadb:
     driver: local

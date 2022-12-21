@@ -16,4 +16,4 @@ RUN npm init -y
 
 RUN npm install express
 
-CMD nodemon
+ENTRYPOINT ["nodemon"]

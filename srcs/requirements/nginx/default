@@ -1,7 +1,5 @@
 server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
-
+	
 	ssl_certificate /hboukili.crt;
     ssl_certificate_key /hboukili.key;
 	listen 443 ssl default_server;
@@ -9,7 +7,6 @@ server {
 
 	root /var/www/html/wordpress;
 
-	# Add index.php to the list if you are using PHP
 	index index.php;
 
 	server_name _;
@@ -18,7 +15,7 @@ server {
 		proxy_pass http://adminer:8080/;
 	}
 
-	location /webpage{
+	location /webpage/ {
 		proxy_pass http://webpage:777/;
 	}
 
