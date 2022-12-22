@@ -11,4 +11,4 @@ RUN mkdir -p /var/www/html/adminer/
 
 RUN wget "http://www.adminer.org/latest.php" -O /var/www/html/adminer/index.php --no-check-certificate
 
-ENTRYPOINT php -S '[::]: 8080' -t/var/www/html/adminer/
+CMD ["php", "-S", "[::]:8080", "-t", "/var/www/html/adminer"]
