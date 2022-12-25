@@ -87,13 +87,13 @@ volumes:
     driver_opts:
       o: bind
       type: none
-      device: ${PWD}/requirements/tools/volumes/DB
+      device: /home/hboukili/data/DB
   wordpress :
     driver : local
     driver_opts :
       o: bind
       type : none
-      device : ${PWD}/requirements/tools/volumes/wordpress
+      device : /home/hboukili/data/wordpress
 networks:
   docker_net:
     driver: bridge
