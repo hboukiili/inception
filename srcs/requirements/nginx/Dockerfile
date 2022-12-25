@@ -6,7 +6,6 @@ COPY ./hboukili.crt /
 
 COPY ./hboukili.key /
 
-#COPY ./nginx.conf /etc/nginx/
 
 COPY ./default /etc/nginx/sites-available/
 

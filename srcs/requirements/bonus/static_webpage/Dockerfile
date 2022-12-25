@@ -12,4 +12,4 @@ RUN npm init -y
 
 RUN npm install express
 
-ENTRYPOINT ["node", "./index.js"]
+CMD ["node", "./index.js"]

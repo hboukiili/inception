@@ -1,5 +1,19 @@
 version: "3"
 services:
+  glances:
+    build : ${PWD}/requirements/bonus/glances
+    container_name: glances
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart : unless-stopped
+    networks :
+      - docker_net
+  webpage:
+    build : ${PWD}/requirements/bonus/static_webpage
+    container_name: webpage
+    networks :
+      - docker_net
+    restart : unless-stopped
   mariadb :
     build:
       context: ${PWD}/requirements/mariadb/
@@ -18,7 +32,14 @@ services:
       - mariadb:/var/lib/mysql
     restart : unless-stopped
     networks:
-    - docker_net 
+    - docker_net
+  adminer :
+    depends_on:
+      - mariadb
+    build : ${PWD}/requirements/bonus/adminer
+    container_name : adminer
+    networks : 
+      - docker_net
   wordpress:
     depends_on:
       - mariadb
@@ -43,7 +64,7 @@ services:
     - docker_net 
   nginx:
     depends_on:
-      - wordpress
+      - adminer
     build: ${PWD}/requirements/nginx
     container_name: nginx
     volumes:
@@ -58,20 +79,6 @@ services:
     depends_on:
       - wordpress
     container_name : redis
-    networks :
-      - docker_net
-  adminer :
-    build : ${PWD}/requirements/bonus/adminer
-    depends_on :
-      - wordpress
-    container_name : adminer
-    networks : 
-      - docker_net
-  webpage:
-    build : ${PWD}/requirements/bonus/static_webpage
-    depends_on :
-      - nginx
-    container_name: webpage
     networks :
       - docker_net
 volumes:

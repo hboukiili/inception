@@ -9,4 +9,7 @@ up :
 down :
 	@docker-compose -f $(COMPOSE_FILE) down
 clean :
+	@docker stop $(docker ps -qa)
 	@docker system prune -af
+	@docker volume rm $(docker volume ls -q)
+	@docker network rm $(docker network ls -q)

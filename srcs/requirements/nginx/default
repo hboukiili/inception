@@ -11,6 +11,10 @@ server {
 
 	server_name _;
 
+	location /glances/{
+		proxy_pass http://glances:61208/;
+	}
+
 	location /adminer{
 		proxy_pass http://adminer:8080/;
 	}
