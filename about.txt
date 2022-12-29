@@ -1,0 +1,118 @@
+What is docker ?
+————————
+Docker is an open source standalone application which works as an engine used to run containerized application. It is installed on your operating system, preferably in linux, but can be also installed on windows and macOS.
+
+Containerized Applications :
+————————————————————————
+———————————————————————
+APP 1 | APP 2 | APP 3 | APP 4 | APP 5 | APP 6 	|
+———————————————————————--------------------------
+				Docker 			 		        |
+———————————————————————--------------------------
+			Host operating System			    |
+———————————————————————-------------------------
+				Infrastructure 				    |
+———————————————————————-------------------------
+An application running in a container is isolated from the rest of the system and from other containers, but gives the illusion of running in its own OS instance.
+Multiple Docker containers can be run on the single operating system simultaneously, you can manage those containers with Docker.
+Docker application run in containers that can be used on any system : a laptop, on premises, or in the cloud.
+Simply we can say Docker is a container management service.
+
+What is a Docker container ?
+——————————————
+A container is a standard unit of software that packages up code and all its dependencies so the application runs. Quickly from computing environment to another.
+
+Docker Architecture : 
+===============
+
+Image : an image is a ready-only template with instructions for creating a Docker container, you mat build, an image which is based on the ubuntu image or SQL Server.
+Container : A container is a runnable instance of an image. You can create, start, stop, move, or delete a container using the docker API or CLI.
+Registry : A docker registry sores Docker image. Docker Hub is a public registry that anyone can use, and Docker is configured to look for images on Docker Hub by default, you can even run your own private registry.
+Client : the Docker client is the primary way that many docker users interact with Docker. When you use commands such as Docker un, the client sends these commands to docker, which carries them out, the docker command uses the Docker API.
+Docker daemon : the Docker daemon listens for docker API requests and manages Docker objects such as images, containers, networks, and volumes.
+Namespaces : docker uses a technology called namespaces to provide the isolates workspace called the container, when you run a container, Docker creates a set of namespaces for that container, these namespaces provide a layer of isolation. Each aspect of a container runs in a separate namespace and its access is limites to that namespace. 
+
+Docker commandes;
+
+Ip container : docker inspect -f='{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
+Docker infos;
+Docker inspect;
+Docker container start …
+Docker container stop …
+Docker stats …;
+Docker run -d -p XX:XX —name …. ……;
+Docker logs ….;
+docker system prune -af
+
+What Are Docker Volumes
+
+The purpose of using Docker volumes is to persist data outside the container so it can be backed up or shared.
+Docker volumes are dependent on Docker’s file system and are the preferred method of persisting data for Docker containers and services. When a container is started, Docker loads the read-only image layer, adds a read-write layer on top of the image stack, and mounts volumes onto the container filesystem.
+
+HOW php-fpm and php-mysql work :
+————————————————
+
+Yes, that is a basic overview of how PHP-FPM and PHP-MySQL can be used together to create dynamic, data-driven websites. Here is a more detailed summary of the process:
+1. A client (such as a web browser) makes a request for a dynamic webpage to the web server.
+2. The web server receives the request and passes it to PHP-FPM (FastCGI Process Manager), which is a tool that is used to execute PHP scripts.
+3. PHP-FPM executes the PHP script that is responsible for handling the request.
+4. The PHP script connects to the MySQL database using PHP-MySQL and retrieves the data that it needs to generate the dynamic content for the web page.
+5. The PHP script processes the data and generates the output for the web page.
+6. The PHP script returns the output to PHP-FPM.
+7. PHP-FPM returns the output to the web server.
+8. The web server sends the output back to the client, completing the request.
+In this process, PHP-FPM is responsible for executing the PHP script that handles the request, and the PHP script is responsible for retrieving data from the MySQL database and using it to generate the dynamic content for the web page. Together, these technologies allow the web server to serve customized and personalized content to clients based on data stored in the MySQL database.
+Overall, PHP-FPM and PHP-MySQL are powerful technologies that can be used together to create dynamic, data-driven websites by executing PHP scripts and retrieving data from a MySQL database.
+
+
+Namespace of docker :
+In Docker, there are several types of namespaces that are used to isolate resources for containers:
+1. Process namespace: This namespace isolates the process IDs that are visible within a container. Each container has its own process namespace, which means that the process IDs within a container are unique and do not conflict with the process IDs of other containers or the host system. 
+2. Network namespace: This namespace isolates the network interfaces and IP addresses that are available within a container. Each container has its own network namespace, which means that it can have its own set of network interfaces and IP addresses that are separate from those of other containers and the host system. 
+3. Mount namespace: This namespace isolates the file system mount points that are available within a container. Each container has its own mount namespace, which means that it can have its own set of mount points that are separate from those of other containers and the host system. 
+4. IPC namespace: This namespace isolates the interprocess communication (IPC) resources that are available within a container. This includes System V IPC and POSIX message queues. 
+5. UTS namespace: This namespace isolates the hostname and domain name that are visible within a container. Each container can have its own hostname and domain name, which are separate from those of other containers and the host system. 
+By using these namespaces, Docker is able to provide a high level of isolation between containers, allowing them to run on the same host without interfering with each other. This is a key feature of Docker that enables you to run multiple containers on a single host and manage them as a single logical unit.
+
+
+Docker networks : 
+In Docker, there are several types of networks that you can use to connect your containers:
+1. Bridge: This is the default network type in Docker, and it creates a private network namespace for each container and connects them using virtual Ethernet bridges. This allows the containers to communicate with each other using their IP addresses, and also with the host system if the network is configured to allow it. 
+2. Host: This network type allows the container to use the host's network namespace and network stack, rather than creating a separate network namespace. This allows the container to see and interact with all the network resources on the host, including the network interfaces and routes. 
+3. Overlay: This network type allows you to create a network that spans multiple Docker hosts, so that containers on different hosts can communicate with each other. It uses the container's own IP address and uses a distributed data store to manage the network resources. 
+4. Macvlan: This network type allows you to create a network that is directly connected to the host network, using the host's physical network interface. This allows the containers on the network to have their own unique MAC addresses and to communicate directly with the host network and other resources on the network. 
+5. None: This network type disables all networking for the container. The container will not have any network interfaces and will not be able to communicate with other resources on the network. 
+Which network type you choose will depend on your specific requirements and the level of isolation and connectivity you need for your containers.
+
+Docker volumes :
+—————————— 
+ 
+There are several types of volumes that you can use in a Docker containerized environment. Some of the most common types of volumes include:
+* bind: This type of volume allows you to mount a folder from the host file system into the container. This can be useful for sharing files or directories between the host system and the container. 
+* volume: This type of volume creates a new, anonymous volume that is managed by Docker. The volume is created in a default location on the host file system, and the data stored in the volume is persisted even if the container is deleted. 
+* tmpfs: This type of volume creates a temporary filesystem in memory, rather than on the host file system. The data stored in a tmpfs volume is not persisted between restarts of the container. 
+* nfs: This type of volume allows you to mount an NFS (Network File System) share as a volume in the container. This can be useful for sharing files or directories between multiple containers or between the host system and the container. 
+* iscsi: This type of volume allows you to mount an iSCSI (Internet Small Computer System Interface) volume as a block device in the container. This can be useful for accessing shared storage devices over a network. 
+* local: This type of volume is the default volume driver in Docker. It allows you to create and manage volumes on the host file system using the Docker CLI. ———————————————————————————————————————————————————————————
+Docker volumes has many type :
+* Bind mount volumes: Bind mount volumes are used to mount a file or directory from the host machine into a container. Bind mount volumes are not persisted when the container is stopped or removed, which means that any changes made to the volume are lost when the container is stopped or removed. 
+* Named volumes: Named volumes are managed by Docker and are stored in a location on the host machine. There are several types of named volumes, including local volumes, which are stored on the host machine and managed by Docker, and network volumes, which are stored on a remote server and managed by a volume driver. Named volumes are persisted when the container is stopped or removed, which means that the data in the volume is preserved even when the container is stopped or removed. 
+* Tmpfs volumes: Tmpfs volumes are used to mount a temporary file system into a container. Tmpfs volumes are stored in the host machine's memory and are not persisted when the container is stopped or removed. Tmpfs volumes can be used to store data that is only needed temporarily and can be regenerated if necessary. 
+And the types of named volumes are : 
+	Local volumes: Local volumes are stored on the host machine and managed by Docker. Local volumes are created when you create a named 			volume in your Docker configuration, and they are persisted when the container is stopped or removed. Local volumes are useful for storing data that 	needs to be persisted and shared between containers. 
+Network volumes: Network volumes are stored on a remote server and managed by a volume driver. Network volumes are created and managed by volume drivers, which are plugins that allow you to store data on a remote server or storage provider. Network volumes are useful for storing data that needs to be shared between multiple hosts or cloud environments. 
+Cloud volumes: Cloud volumes are stored in a cloud storage provider and managed by a volume driver. Cloud volumes are created and managed by volume drivers, which are plugins that allow you to store data in a cloud storage provider. Cloud volumes are useful for storing data in the cloud and making it available to multiple hosts or cloud environments. 
+
+——————————————————————————————————————————————————————————————————————————
+Each type of volume has its own unique set of characteristics and use cases, and you can choose the type of volume that is most appropriate for your needs based on your specific requirements.
+
+
+In Docker, the type option in the driver_opts block is used to specify the type of mount to use for a volume. The available mount types depend on the type of volume and the host operating system.
+Here are some of the common mount types that you can use with Docker volumes:
+* none: The none mount type specifies that no special file system type is needed. This mount type is often used with bind mount volumes, which do not require a special file system type. 
+* ext4: The ext4 mount type specifies that the volume should be mounted as an ext4 file system. This mount type is often used with named volumes, which are stored on the host machine and managed by Docker. 
+* cifs: The cifs mount type specifies that the volume should be mounted as a Common Internet File System (CIFS) file system. This mount type is often used with network volumes, which are stored on a remote server and managed by a volume driver. 
+* nfs: The nfs mount type specifies that the volume should be mounted as a Network File System (NFS) file system. This mount type is often used with network volumes, which are stored on a remote server and managed by a volume driver. 
+It is important to choose the appropriate mount type depending on the type of volume and the host operating system.
+I hope this helps! Let me know if you have any other questions or need further assistance.
+
